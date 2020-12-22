@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd 
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd ">
+	
+	<!-- 告诉Spring需要扫描注解的包，使注解生效 -->
+	<!--  
+	<context:component-scan base-package="net.ysq.easymall.controller" />
+	-->
+	<context:component-scan base-package="net.ysq.easymall" />
+	
+	<!-- 配置dbcp数据源（连接池）对象，交由Spring创建 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="username" value="root" />
+		<property name="password" value="ysqJYKL2010" />
+		<property name="url" value="jdbc:mysql://localhost:3306/easymall?characterEncoding=utf8" />
+		
+		<!--
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://114.55.219.55:3306/easymall?characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai" />
+		<property name="username" value="ysq" />
+		<property name="password" value="ysqJYKL2010!" />
+		-->
+		
+		<!-- 数据源的基本配置 -->
+		<!-- 最大连接数 -->
+		<property name="maxTotal" value="30" />
+		<!-- 最大空闲数 -->
+		<property name="maxIdle" value="10" />
+		<!-- 初始化连接数 -->
+		<property name="initialSize" value="5" />
+	</bean>
+
+	<!-- 设置Spring的事务支持，配置事务管理器对象 -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />	
+	</bean>
+	
+	<!-- 开启Spring的事务注解，需要传入事务管理器对象 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+	
+	<!-- 配置mybatis工厂  -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+	</bean>
+	
+	<!-- Mapper代理开发，使用Spring自动扫描MyBatis的接口并装配
+	Spring将指定包中所有被@Mapper注解（来自于MyBatis）标注的接口自动装配为
+	MyBatis的映射接口
+	 
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="net.ysq.easymall.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean> 
+	-->
+	<!-- 配置通用 Mapper -->
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="net.ysq.easymall.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+</beans>

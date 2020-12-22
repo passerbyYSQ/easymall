@@ -1,0 +1,57 @@
+.clear-float {
+	clear: both;
+}
+.login-box {
+	/* border: 1px solid #000; */
+	padding: 0 16px;
+	border-radius: 8px;
+	margin-top: 100px;
+	box-shadow: 0 0 10px #ddd;
+}
+.photo {
+	/* 一定要设置为块状元素，否则margin auto不生效 */
+	display: block;
+	width: 100px;
+	height: 100px;
+	border: 1px solid #eee;
+	padding: 4px;
+	box-shadow: 0 0 10px #ddd;
+	background-color: #fff;
+	margin: 0 auto;
+}
+.login-btn {
+	width: 100%;
+	/* 设置line-height比设置height更好 */
+	line-height: 24px; 
+	/* height: 24px; */
+	font-size: 17px;
+	margin: 8px 0;
+}
+.to-register {
+	float: right;
+	padding-right: 0;
+	margin-top: 8px;
+}
+.error-msg {
+	/* 不设置block，margin不起作用 */
+	display: block;
+	float: right;
+	color: #a94442;
+	font-weight: bold;
+}
+.captcha {
+	background-image: url(/account/captcha/generate);
+	background-repeat: no-repeat;
+	background-position: right;
+	/* 如果不加!important，就无法生效 */
+	padding-right: 120px !important;
+}
+.refresh {
+	margin-left: 4px;
+	cursor: pointer;
+}
+/* 复写.form-control的right属性，因为验证码输入框右端的提示图标遮挡住验证码 */
+.captcha_icon {
+	/* 如果不加!important，就无法生效 */
+	right: 100px !important;
+}
