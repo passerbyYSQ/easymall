@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.ysq.easymall.dao.CartMapper">
+  <resultMap id="BaseResultMap" type="net.ysq.easymall.po.Cart">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="cartID" jdbcType="INTEGER" property="cartid" />
+    <result column="user_id" jdbcType="CHAR" property="userId" />
+    <result column="pid" jdbcType="CHAR" property="pid" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+  </resultMap>
+  
+  <!-- 显示购物车 -->
+  <select id="selectAllCart" parameterType="Integer" resultType="net.ysq.easymall.vo.CartRspVo">
+  	select
+  		c.cartID,
+  		c.num,
+  		p.id prodId,
+  		p.name prodName,
+  		p.price,
+  		p.imgurl imgUrl
+  	from cart c, products p
+  	where c.user_id=#{userId} and c.pid=p.id
+  </select>
+  
+  <!-- 订单结算页显示结算的商品 -->
+  <select id="selectOrderProds" parameterType="map" resultType="net.ysq.easymall.vo.CartRspVo">
+  	select
+  		c.cartID,
+  		c.num,
+  		p.id prodId,
+  		p.name prodName,
+  		p.price,
+  		p.imgurl imgUrl
+  	from cart c, products p
+  	where c.user_id=#{userId} and 
+  			c.pid=p.id and 
+  			c.pid in 
+  	<foreach item="prodId" collection="prodIds" open="(" separator="," close=")">
+  		#{prodId}
+  	</foreach>
+  </select>
+  
+  <!-- 删除多条cart记录 -->
+  <delete id="delMoreItems" parameterType="map">
+  	delete from cart
+  	where user_id=#{userId} and pid in
+  	<foreach item="prodId" collection="prodIds" open="(" separator="," close=")">
+  		#{prodId}
+  	</foreach>
+  </delete>
+  
+  
+  
+</mapper>

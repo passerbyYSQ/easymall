@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+    <!-- 告诉 MyBatis到哪里去找映射文件 -->
+	 <mappers>  
+	 	<!-- 配置xml所在位置 -->
+        <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/ProductsMapper.xml"/>
+        <mapper resource="mapper/DbFileMapper.xml"/>
+        <mapper resource="mapper/OrdersMapper.xml"/>
+        <mapper resource="mapper/CartMapper.xml"/>
+        <mapper resource="mapper/OrderitemMapper.xml"/>
+        
+        <!-- 配置接口所在的包 
+        <package name="net.ysq.easymall.dao"/>-->
+ 	</mappers>
+</configuration>
